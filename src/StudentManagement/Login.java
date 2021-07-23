@@ -6,6 +6,14 @@
 package StudentManagement;
 
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +24,14 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    
+    Connection con;
+    PreparedStatement pst;
+    ResultSet rs;
+    
+    
+    
+    
     public Login() {
         initComponents();
         
@@ -80,6 +96,11 @@ public class Login extends javax.swing.JFrame {
 
         jButton1Login.setForeground(new java.awt.Color(255, 255, 255));
         jButton1Login.setText("LogIn");
+        jButton1Login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1LoginActionPerformed(evt);
+            }
+        });
 
         jButton2Cancel.setText("Cancel");
         jButton2Cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +176,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
@@ -164,6 +186,63 @@ public class Login extends javax.swing.JFrame {
     private void jButton2CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2CancelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2CancelActionPerformed
+
+    private void jButton1LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1LoginActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            
+            
+            if(txtUser.getText().isEmpty() || txtPass.getText().isEmpty())        //Check the box are empty or not.
+            {
+                JOptionPane.showMessageDialog(this, "Usename OR Password Blank");
+            }
+            else
+            {
+                String username = txtUser.getText();
+                String password = txtPass.getText();
+                
+                
+               Class.forName("com.mysql.jdbc.Driver");
+               con = DriverManager.getConnection("jdbc:mysql://localhost/student-management","root","");//DatabaseConnection 
+               pst = con.prepareStatement("select * from user where username = ? and password = ?"); //Call the Username and Password from database
+               pst.setString(1, username);
+               pst.setString(2, password);
+               rs = pst.executeQuery();  //Check the Username and Password are Correct or NOT
+               
+               
+               if(rs.next())
+               {
+                   Main m = new Main();
+                   this.hide();
+                   m.setVisible(true);
+               }
+               else
+               {
+                   JOptionPane.showMessageDialog(this, "Usename OR Password Not Matched.........");
+                   //for clearing the box
+                   txtUser.setText("");     
+                   txtPass.setText("");
+                   txtUser.requestFocus();
+               }
+                
+                
+            }
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jButton1LoginActionPerformed
 
     /**
      * @param args the command line arguments

@@ -52,16 +52,24 @@ public class NewUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(51, 204, 255));
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel1.setText("Username:");
 
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel2.setText("Password:");
 
+        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel3.setText("Confirm Password:");
 
+        jLabel4.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel4.setText("User Type:");
 
+        txtUtype.setFont(new java.awt.Font("Arial Black", 1, 11)); // NOI18N
         txtUtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User", "Admin" }));
 
+        jButton1.setFont(new java.awt.Font("Arial Black", 1, 11)); // NOI18N
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +77,7 @@ public class NewUser extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial Black", 1, 11)); // NOI18N
         jButton2.setText("Cancel");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
