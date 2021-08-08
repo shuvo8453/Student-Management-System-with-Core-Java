@@ -191,8 +191,7 @@ public class NewUser extends javax.swing.JFrame {
                 
                 //after Add Cursor will be the Username Box.
                 txtUser.requestFocus();
-                
-                
+               
                 
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(NewUser.class.getName()).log(Level.SEVERE, null, ex);
