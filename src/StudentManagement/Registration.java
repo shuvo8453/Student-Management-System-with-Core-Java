@@ -8,6 +8,7 @@ package StudentManagement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +26,63 @@ public class Registration extends javax.swing.JFrame {
     
     Connection con;
     PreparedStatement pst;
+    PreparedStatement pst1;
+    PreparedStatement pst2;
+    ResultSet rs;
     
     public Registration() {
         initComponents();
+        courses();
+        batch();
     }
+    
+    public void courses()
+    {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/student-management","root","");    //DatabaseConnection
+            pst1 = con.prepareStatement("select * from course");
+            rs = pst1.executeQuery();
+            
+            txtcourse.removeAllItems();
+            
+            while(rs.next()){
+                txtcourse.addItem(rs.getString("coursename"));
+            }
+       
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    
+    public void batch()
+    {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/student-management","root","");    //DatabaseConnection
+            pst2 = con.prepareStatement("select * from batch");
+            rs = pst2.executeQuery();
+            
+            txtbatch.removeAllItems();
+            
+            while(rs.next()){
+                txtbatch.addItem(rs.getString("batchname"));
+            }
+       
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,10 +176,6 @@ public class Registration extends javax.swing.JFrame {
 
         jRadioButton2.setText("Female");
 
-        txtcourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtbatch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         txtaddress.setColumns(20);
         txtaddress.setRows(5);
         jScrollPane1.setViewportView(txtaddress);
@@ -140,6 +190,11 @@ public class Registration extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -253,26 +308,57 @@ public class Registration extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            
+            String firstname = txtfirst.getText();
+            String lastname = txtlast.getText();
+            String nic = txtnic.getText();
+            String Gender;
+            
+            if(jRadioButton1.isSelected())
+            {
+                Gender = "Male";
+            }
+            else
+            {
+                Gender = "Female";
+            }
+            
+            String course = txtcourse.getSelectedItem().toString();
+            String batch = txtbatch.getSelectedItem().toString();
+            String telephone = txttel.getText();
+            String address = txtaddress.getText();
+            
+            
+            
             // TODO add your handling code here:
 
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/student-management","root","");    //DatabaseConnection
-            pst = con.prepareStatement("insert into course(coursename,duration,optionn)values(?,?,?)");
+            pst = con.prepareStatement("insert into registration(firstname,lastname,nic,gender,course,batch,telephone,address)values(?,?,?,?,?,?,?,?)");
             
-            pst.setString(1, Course);
-            pst.setString(2, Duration);
-            pst.setString(3, Durationoption);
+            pst.setString(1, firstname);
+            pst.setString(2, lastname);
+            pst.setString(3, nic);
+            pst.setString(4, Gender);
+            pst.setString(5, course);
+            pst.setString(6, batch);
+            pst.setString(7, telephone);
+            pst.setString(8, address);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Course Created....");
+            JOptionPane.showMessageDialog(null, "Registration Completed....");
                 
             //after Add Clear All the Boxes 
-            txtCourse.setText("");
-            txtDuration.setText("");
-            txtoption.setSelectedIndex(-1);
+            txtfirst.setText("");
+            txtlast.setText("");
+            txtnic.setText("");
+            txtcourse.setSelectedIndex(-1);
+            txtbatch.setSelectedIndex(-1);
+            txttel.setText("");
+            txtaddress.setText("");
                 
             //after Add Cursor will be the Username Box.
-            txtCourse.requestFocus();
+            txtfirst.requestFocus();
             
                        
             
@@ -287,6 +373,12 @@ public class Registration extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        this.hide();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
