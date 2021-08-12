@@ -111,6 +111,11 @@ public class Login extends javax.swing.JFrame {
 
         jButton3NewUser.setForeground(new java.awt.Color(255, 255, 255));
         jButton3NewUser.setText("New User?");
+        jButton3NewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3NewUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -243,6 +248,14 @@ public class Login extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1LoginActionPerformed
+
+    private void jButton3NewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3NewUserActionPerformed
+        // TODO add your handling code here:
+        
+        NewUser n = new NewUser();
+        n.setVisible(true);
+        
+    }//GEN-LAST:event_jButton3NewUserActionPerformed
 
     /**
      * @param args the command line arguments
